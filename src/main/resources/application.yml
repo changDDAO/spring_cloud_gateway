@@ -1,6 +1,9 @@
 server:
   port: 8080
 
+jwt:
+  secret: ${JWT_SECRET_KEY}
+
 spring:
   application:
     name: gateway-service
@@ -8,21 +11,12 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: auth-service
-          uri: http://localhost:8081  # 실제 auth-service 주소
+        - id: auth-route
+          uri: http://auth_service_app:8081  # 실제 auth-service 주소
           predicates:
             - Path=/auth/**
           filters:
-            - StripPrefix=1  # /auth/login → /login 으로 전달
-
-        - id: user-service
-          uri: http://localhost:8082
-          predicates:
-            - Path=/user/**
-          filters:
-            - StripPrefix=1
-            - name: JwtFilter
-
+            - StripPrefix=0
       default-filters:
         - name: GlobalCorsConfig
 
