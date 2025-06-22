@@ -1,29 +1,28 @@
 server:
   port: 8080
 
-jwt:
-  secret: ${JWT_SECRET_KEY}
-
 spring:
   application:
     name: gateway-service
 
   cloud:
-    gateway:
+    gateway.server.webflux:
       routes:
-        - id: auth-route
-          uri: http://auth_service_app:8081  # 실제 auth-service 주소
+          id: auth-service
+          uri: http://auth_service_app:8081
           predicates:
             - Path=/auth/**
           filters:
             - StripPrefix=0
       default-filters:
-        - name: GlobalCorsConfig
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
 
----
+jwt:
+  secret: ${JWT_SECRET_KEY}
 
-# 선택적으로 로깅 등 추가
 logging:
   level:
-    org.springframework.cloud.gateway: DEBUG
+    org.springframework.cloud.gateway.server.webflux: DEBUG
+    org.springframework.security: DEBUG
     reactor.netty.http.client: DEBUG
+    reactor.netty.http.server: DEBUG
