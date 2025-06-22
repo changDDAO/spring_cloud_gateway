@@ -24,9 +24,16 @@ public class JwtAuthenticationFilter implements WebFilter {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
+        String path = exchange.getRequest().getURI().getPath();
+
+        // ✅ /auth 경로는 인증 필터를 타지 않게 예외 처리
+        if (path.startsWith("/auth")) {
+            return chain.filter(exchange);
+        }
+
         String authHeader = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
 
-        if(authHeader == null || !authHeader.startsWith("Bearer ")){
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             return unauthorized(exchange);
         }
 
@@ -45,9 +52,9 @@ public class JwtAuthenticationFilter implements WebFilter {
             return unauthorized(exchange);
         }
     }
+
     private Mono<Void> unauthorized(ServerWebExchange exchange) {
         exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
         return exchange.getResponse().setComplete();
     }
-
 }

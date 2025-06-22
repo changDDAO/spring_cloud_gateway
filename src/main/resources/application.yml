@@ -6,23 +6,23 @@ spring:
     name: gateway-service
 
   cloud:
-    gateway.server.webflux:
-      routes:
-          id: auth-service
-          uri: http://auth_service_app:8081
-          predicates:
-            - Path=/auth/**
-          filters:
-            - StripPrefix=0
-      default-filters:
-        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+    gateway:
+      server:
+        webflux:
+          routes:
+#              id: auth-service
+#              uri: http://auth_service_app:8081
+#              predicates:
+#                - Path=/auth/**
+#              filters:
+#                - StripPrefix=0
 
 jwt:
   secret: ${JWT_SECRET_KEY}
 
 logging:
   level:
-    org.springframework.cloud.gateway.server.webflux: DEBUG
+    org.springframework.cloud.gateway: DEBUG
     org.springframework.security: DEBUG
     reactor.netty.http.client: DEBUG
     reactor.netty.http.server: DEBUG
