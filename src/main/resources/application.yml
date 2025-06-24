@@ -1,36 +1,5 @@
 server:
   port: 8080
 
-spring:
-  cloud:
-    gateway:
-      discovery:
-        locator:
-          enabled: true
-      routes:
-        - id: auth-service
-          uri: lb://auth-service
-          predicates:
-           - Path=/auth/**
-          filters:
-           - AddRequestHeader=first-request, first-request-header2
-           - AddResponseHeader=first-response, first-response-header2
-
-eureka:
-  client:
-    service-url:
-      defaultZone: http://eureka-server:8761/eureka
-    register-with-eureka: true
-    fetch-registry: true
-  instance:
-    prefer-ip-address: true
-
 jwt:
   secret: ${JWT_SECRET_KEY}
-
-logging:
-  level:
-    org.springframework.cloud.gateway: DEBUG
-    org.springframework.security: DEBUG
-    reactor.netty.http.client: DEBUG
-    reactor.netty.http.server: DEBUG
