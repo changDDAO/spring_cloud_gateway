@@ -27,7 +27,7 @@ public class JwtAuthenticationFilter implements WebFilter {
         String path = exchange.getRequest().getURI().getPath();
 
         // ✅ /auth 경로는 인증 필터를 타지 않게 예외 처리
-        if (path.startsWith("/auth")) {
+        if (path.startsWith("/auth")||path.startsWith("/internal")) {
             return chain.filter(exchange);
         }
 
