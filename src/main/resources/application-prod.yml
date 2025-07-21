@@ -9,10 +9,11 @@ spring:
           uri: lb://auth-service
           predicates:
             - Path=/auth/**
-          filters:
-            - AddRequestHeader=first-request, first-request-header2
-            - AddResponseHeader=first-response, first-response-header2
 
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/users/**
 
 eureka:
   client:
