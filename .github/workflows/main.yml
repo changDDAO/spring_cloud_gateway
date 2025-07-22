@@ -44,9 +44,8 @@ jobs:
       run: pwd && ls -al
       
     - name: Pull latest image from Docker Hub
-      run: docker compose -f ./docker-compose.yml pull app
+      run: docker compose -f ./docker-compose.yml pull gateway
 
     - name: Restart Gateway container
-      env:
-          JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
-      run: docker compose -f ./docker-compose.yml up -d app
+      run: docker compose -f ./docker-compose.yml up -d gateway
+      
