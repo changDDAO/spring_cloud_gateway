@@ -41,7 +41,9 @@ jobs:
 
     steps:
     - name: Pull latest image from Docker Hub
+      working-directory: /home/changddao/changhome/gateway
       run: docker compose -f /home/changddao/changhome/gateway/docker-compose.yml pull gateway
 
     - name: Restart Gateway container
+      working-directory: /home/changddao/changhome/gateway
       run: docker compose -f /home/changddao/changhome/gateway/docker-compose.yml up -d gateway
